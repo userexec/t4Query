@@ -39,7 +39,7 @@ if (typeof $ == 'undefined') {
 			t4Obj.fail = true;
 
 			// Log a warning in the page output
-			document.write('<br><span style="color: red; font-weight: bold;">tQuery warning:</span> Field ' + field + ' returned null.<br>');
+			document.write('<br><span style="color: red; font-weight: bold;">t4Query warning:</span> Field ' + field + ' returned null.<br>');
 
 			return t4Obj;
 		}
@@ -50,9 +50,9 @@ if (typeof $ == 'undefined') {
 		return BrokerUtils.processT4Tags(dbStatement, publishCache, section, content, language, isPreview, tag);
 	};
 
-	// Provide helper mechanism for creating generic tQuery objects
+	// Provide helper mechanism for creating generic t4Query objects
 	$.createObject = function(keyValuePairs) {
-		// Create a new tQuery object
+		// Create a new t4Query object
 		var element = new $.Functions();
 
 		// Load the tag object with the requested key-value pairs
@@ -96,6 +96,11 @@ if (typeof $ == 'undefined') {
 					this.tag[attribute] = str;
 					return this;
 				} else {
+					// Flag this t4Query object so that it does not pass through broker utils
+					this.fail = true;
+
+					// Log a warning in the page output
+					document.write('<br><span style="color: red; font-weight: bold;">t4Query warning:</span> Passed attribute ' + str + ' should be a string.<br>');
 					return false;
 				}
 			},
@@ -149,7 +154,7 @@ if (typeof $ == 'undefined') {
 					// Add opening bracket as tag is passed to broker utils to prevent preemptive processing
 					return $.t4('<' + tag);
 				} else {
-					// Dummy object detected--fail silently
+					// Flagged object detected--fail silently
 					return false;
 				}
 			},
