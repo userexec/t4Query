@@ -1,12 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///// t4Query - T4 JavaScript Preprocessor superset ///////////////////////////
-///// v1.0                                         ////////////////////////////
+///// v1.0                                          ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 /* global document, content, publishCache, dbStatement, section, language, isPreview, importClass, com, BrokerUtils */
 /* jshint evil: true */
 /* jshint strict: false */
-/* jshint eqeqeq: false */
 
 if (typeof $ == 'undefined') {
 	// Import Broker Utilities
