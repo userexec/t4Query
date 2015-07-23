@@ -32,7 +32,7 @@ t4Query focuses on making a human-readable content layout by sharing the vocabul
 
 ## Preparation
 
-Open a content or page layout (e.g. text/html), switch to the JavaScript layout processor, then past the contents of either [t4Query.js](https://github.com/userexec/t4Query/blob/master/t4Query.js) or [t4Query.min.js](https://github.com/userexec/t4Query/blob/master/t4Query.min.js) into the top of the input box. Create your content layout below the included code.
+Open a content or page layout (e.g. text/html), switch to the JavaScript layout processor, then paste the contents of either [t4Query.js](https://github.com/userexec/t4Query/blob/master/t4Query.js) or [t4Query.min.js](https://github.com/userexec/t4Query/blob/master/t4Query.min.js) into the top of the input box. Create your content layout below the included code.
 
 ## Usage
 
