@@ -102,33 +102,33 @@ document.write('Image (image output): ' + $('Image Field').output('image').inser
 
 Any number of the following methods can be chained between the selector and the insertion:
 
-- action
-- after
-- appendContent
-- appendElement
-- before
-- dateFormat
-- delimiter
-- disableDirectEdit (no argument needed)
-- displayField
-- element
-- format
-- formatModifiers
-- formatter
-- id
-- locale
-- localeEs
-- meta
-- method
-- modifiers
-- name
-- output
-- outputSheetName
-- processFormat
-- text
-- textualNameSeparator
-- type
-- url
+- `action`
+- `after`
+- `appendContent`
+- `appendElement`
+- `before`
+- `dateFormat`
+- `delimiter`
+- `disableDirectEdit` (no argument needed)
+- `displayField`
+- `element`
+- `format`
+- `formatModifiers`
+- `formatter`
+- `id`
+- `locale`
+- `localeEs`
+- `meta`
+- `method`
+- `modifiers`
+- `name`
+- `output`
+- `outputSheetName`
+- `processFormat`
+- `text`
+- `textualNameSeparator`
+- `type`
+- `url`
 
 If you need to specify an uncommon attribute for the content to be included, use the general purpose `attr` method with a key-value pair:
 
