@@ -30,14 +30,159 @@ if ($('Checkbox Field').checked()) ...
 
 t4Query focuses on making a human-readable content layout by sharing the vocabulary of the t4 tags you're already used to and providing simple, semantic methods that do what you'd expect. No installation or additional access necessary.
 
+## Preparation
+
+Open a content or page layout (e.g. text/html), switch to the JavaScript layout processor, then past the contents of either [t4Query.js](https://github.com/userexec/t4Query/blob/master/t4Query.js) or [t4Query.min.js](https://github.com/userexec/t4Query/blob/master/t4Query.min.js) into the top of the input box. Create your content layout below the included code.
+
 ## Usage
+
+t4Query uses a "selector-modifiers(s)-insertion" pattern for the majority of its use-cases. You begin by selecting a field from your content type's element list, apply any modifiers that would normally be applied in a t4 tag to retrieve the desired output, and then call the `insert` method to resolve the content. This pattern will generally appear within a `document.write` statement in order to output content to the page.
+
+Selector | Modifier(s) | Insertion
+------------ | ------------- | -------------
+$('*field name*') | .*t4-tag-attribute*(value) | .insert()
+
+Some exceptions to this pattern exist, such as retrieving section and page metadata or including navigation objects.
 
 ### Inserting Content
 
+To insert content into your page, first open a `document.write`. Select the field you wish to include using the selector-modifier-insertion syntax, then call the `insert` method on it.
+
+```javascript
+document.write('The secret message is: ' + $('Secret Message').insert() + '...');
+```
+
 ### Selective Output
+
+To check if a field has content, select it and use the `hasContent` method. Combining this with an if statement emulates selective output.
+
+```javascript
+if ($('Email Address').hasContent()) {
+	document.write('<li><a href="mailto:' + $('Email Address').insert() + '">Email user</a></li>');
+}
+```
+
+This method can be used for checkboxes as well, or you can use the more semantic `checked` method:
+
+```javascript
+if ($('Hide Buttons').checked()) {
+	document.write('<style> div.button { display: none; } </style>');
+}
+```
 
 ### Modifiers, Formatters, and Other Attributes
 
+t4Query's selector function is designed to be transformed via chaining methods before insertion. Each of the most common attributes you would include on a t4 tag can be applied to your selected field before its insertion, allowing you to transform the data that will be returned.
+
+Get an image path:
+
+```javascript
+document.write('Path: ' + $('Media Field').formatter('path/*').insert());
+```
+
+Strip HTML tags and convert special characters:
+
+```javascript
+document.write('Plain text: ' + $('Mixed Field').modifiers('striptags, htmlentities').insert());
+```
+
+Use a special output format:
+
+```javascript
+document.write('Image (image output): ' + $('Image Field').output('image').insert());
+```
+
+Any number of the following methods can be chained between the selector and the insertion:
+
+- action
+- after
+- appendContent
+- appendElement
+- before
+- dateFormat
+- delimiter
+- disableDirectEdit (no argument needed)
+- displayField
+- element
+- format
+- formatModifiers
+- formatter
+- id
+- locale
+- localeEs
+- meta
+- method
+- modifiers
+- name
+- output
+- outputSheetName
+- processFormat
+- text
+- textualNameSeparator
+- type
+- url
+
+If you need to specify an uncommon attribute for the content to be included, use the general purpose `attr` method with a key-value pair:
+
+```javascript
+document.write('Uncommon format: ' + $('Field').attr('uncommon', 'true').insert());
+```
+
 ### Retrieving Metadata
 
+To retrieve metadata, you'll use a slightly different syntax. Pass the name of any metadata field to the `meta` method without specifying a selector:
+
+```javascript
+document.write('Last Modified: ' + $.meta('last_modified').insert());
+```
+
+Supported metadata fields:
+- content_id
+- expiry_date
+- html_anchor
+- last_modified
+- last_modified_by_fullname
+- last_modified_by_username
+- publish_date
+- recently_modified
+- version
+- filesize (see below)
+
+The filesize metadata requires a modifier since it needs to know which element to examine. You can use the `attr` method with a key-value pair to specify the element before insertion.
+
+```javascript
+document.write('Last Modified: ' + $.meta('last_modified').attr('name', 'Text Field').insert());
+```
+
+
+### Navigation Objects
+
+Including a navigation object is as simple as finding its ID, then using the following pattern to insert it onto the page:
+
+```javascript
+document.write('Nav object #104: ' + $.nav(104).insert());
+```
+
 ### Checking Page Information
+
+Page information is not a primary focus of t4Query, but some page information can assist in layouts. Currently t4Query only has the ability to check the page layout of the section the content item appears in. This can be *extremely* useful for outputting different HTML structures for different page layouts that must all support the text/html content layout. Note that if the content item is pulled through a navigation tag, it will report the layout ID of the page on which it originally resides, not the page it's being pulled onto.
+
+To find the page layout ID, use the following pattern:
+
+```javascript
+if ($.pageInfo('layout') == 121) {
+	document.write('This is HTML for layout A');
+} else if ($.pageInfo('layout') == 125) {
+    document.write('This is HTML for layout B');
+} else {
+	document.write('This is compatible HTML for old templates');
+}
+```
+
+### Using Plain t4 Tags
+
+Maybe all of this new-fangled stuff isn't for you. Maybe you just want the comfort of pasting in a t4 tag from the tag builder. That's okay--there's something for you here, too:
+
+```javascript
+document.write('Plain text: ' + $.t4('<t4 output="normal" name="Text Field" modifiers="" />'));
+```

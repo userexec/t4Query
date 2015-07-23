@@ -73,6 +73,28 @@ if (typeof $ == 'undefined') {
 		});
 	};
 
+	// Provide mechanism for outputting navigation
+	$.nav = function(id) {
+		return $.createObject({
+			id: id + '',
+			type: 'navigation'
+		});
+	};
+
+	// Provide mechanism for outputting page info
+	$.pageInfo = function(prop) {
+		if ($.pageInfo[prop]) {
+			return $.pageInfo[prop]();
+		}
+	};
+
+	$.pageInfo.layout = function() {
+		// Find the layout ID of the page on which this content item appears
+		var channel = publishCache.getChannel();
+		// Return the style of the secion (channel object required for lookup)
+		return section.getStyle(channel);
+	};
+
 	// Define standard library of tag-forming functions
 	$.Functions = function() {
 		return {
