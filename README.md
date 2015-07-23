@@ -1,5 +1,5 @@
-# t4Query
-### TERMINALFOUR JavaScript layout processor superset
+<center>![t4_query](https://cloud.githubusercontent.com/assets/5970137/8856790/a6c554d6-3132-11e5-869b-70784d9b26f7.png)</center>
+### <center>TERMINALFOUR JavaScript layout processor superset</center>
 
 t4Query is a language superset for the [TERMINALFOUR](http://www.terminalfour.com/) JavaScript layout processor intended to simplify the inclusion of data in your content and page layouts. By pasting it into the top of your layout, you unlock easy access to all of your data normally included via t4 tags without needing extensive knowledge of the objects and methods available in the processor.
 
@@ -44,7 +44,15 @@ $('*field name*') | .*t4-tag-attribute*(value) | .insert()
 
 Some exceptions to this pattern exist, such as retrieving section and page metadata or including navigation objects.
 
-### Inserting Content
+- [Inserting Content](#inserting)
+- [Selective Output](#selective)
+- [Modifiers, Formatters, and Other Attributes](#modifiers)
+- [Retrieving Metadata](#metadata)
+- [Navigation Objects](#navigation)
+- [Checking Page Information](#pageinfo)
+- [Using Plain t4 Tags](#tags)
+
+### <a name="inserting"></a> Inserting Content
 
 To insert content into your page, first open a `document.write`. Select the field you wish to include using the selector-modifier-insertion syntax, then call the `insert` method on it.
 
@@ -52,7 +60,7 @@ To insert content into your page, first open a `document.write`. Select the fiel
 document.write('The secret message is: ' + $('Secret Message').insert() + '...');
 ```
 
-### Selective Output
+### <a name="selective"></a> Selective Output
 
 To check if a field has content, select it and use the `hasContent` method. Combining this with an if statement emulates selective output.
 
@@ -70,7 +78,7 @@ if ($('Hide Buttons').checked()) {
 }
 ```
 
-### Modifiers, Formatters, and Other Attributes
+### <a name="modifiers"></a> Modifiers, Formatters, and Other Attributes
 
 t4Query's selector function is designed to be transformed via chaining methods before insertion. Each of the most common attributes you would include on a t4 tag can be applied to your selected field before its insertion, allowing you to transform the data that will be returned.
 
@@ -94,33 +102,33 @@ document.write('Image (image output): ' + $('Image Field').output('image').inser
 
 Any number of the following methods can be chained between the selector and the insertion:
 
-- `action`
-- `after`
-- `appendContent`
-- `appendElement`
-- `before`
-- `dateFormat`
-- `delimiter`
-- `disableDirectEdit` (no argument needed)
-- `displayField`
-- `element`
-- `format`
-- `formatModifiers`
-- `formatter`
-- `id`
-- `locale`
-- `localeEs`
-- `meta`
-- `method`
-- `modifiers`
-- `name`
-- `output`
-- `outputSheetName`
-- `processFormat`
-- `text`
-- `textualNameSeparator`
-- `type`
-- `url`
+- action
+- after
+- appendContent
+- appendElement
+- before
+- dateFormat
+- delimiter
+- disableDirectEdit (no argument needed)
+- displayField
+- element
+- format
+- formatModifiers
+- formatter
+- id
+- locale
+- localeEs
+- meta
+- method
+- modifiers
+- name
+- output
+- outputSheetName
+- processFormat
+- text
+- textualNameSeparator
+- type
+- url
 
 If you need to specify an uncommon attribute for the content to be included, use the general purpose `attr` method with a key-value pair:
 
@@ -128,7 +136,7 @@ If you need to specify an uncommon attribute for the content to be included, use
 document.write('Uncommon format: ' + $('Field').attr('uncommon', 'true').insert());
 ```
 
-### Retrieving Metadata
+### <a name="metadata"></a> Retrieving Metadata
 
 To retrieve metadata, you'll use a slightly different syntax. Pass the name of any metadata field to the `meta` method without specifying a selector:
 
@@ -155,7 +163,7 @@ document.write('Last Modified: ' + $.meta('last_modified').attr('name', 'Text Fi
 ```
 
 
-### Navigation Objects
+### <a name="navigation"></a> Navigation Objects
 
 Including a navigation object is as simple as finding its ID, then using the following pattern to insert it onto the page:
 
@@ -163,7 +171,7 @@ Including a navigation object is as simple as finding its ID, then using the fol
 document.write('Nav object #104: ' + $.nav(104).insert());
 ```
 
-### Checking Page Information
+### <a name="pageinfo"></a> Checking Page Information
 
 Page information is not a primary focus of t4Query, but some page information can assist in layouts. Currently t4Query only has the ability to check the page layout of the section the content item appears in. This can be *extremely* useful for outputting different HTML structures for different page layouts that must all support the text/html content layout. Note that if the content item is pulled through a navigation tag, it will report the layout ID of the page on which it originally resides, not the page it's being pulled onto.
 
@@ -179,7 +187,7 @@ if ($.pageInfo('layout') == 121) {
 }
 ```
 
-### Using Plain t4 Tags
+### <a name="tags"></a> Using Plain t4 Tags
 
 Maybe all of this new-fangled stuff isn't for you. Maybe you just want the comfort of pasting in a t4 tag from the tag builder. That's okay--there's something for you here, too:
 
