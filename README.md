@@ -196,3 +196,7 @@ Maybe all of this new-fangled stuff isn't for you. Maybe you just want the comfo
 ```javascript
 document.write('Plain text: ' + $.t4('<t4 output="normal" name="Text Field" modifiers="" />'));
 ```
+
+----------------------
+
+Logo by [RYJASM](http://ryjasm.com/)
