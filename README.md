@@ -13,7 +13,7 @@ BrokerUtils.processT4Tags(dbStatement, publishCache, section, content, language,
 Into this:
 
 ```javascript
-$('Media Field').formatter('path/*');
+$('Media Field').formatter('path/*')
 ```
 
 Determining if a checkbox is checked turns from this:
