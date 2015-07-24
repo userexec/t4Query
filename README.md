@@ -36,7 +36,7 @@ Open a content or page layout (e.g. text/html), switch to the JavaScript layout 
 
 ## Usage
 
-t4Query uses a "selector-modifiers(s)" pattern for the majority of its use-cases. You begin by selecting a field from your content type's element list, apply any modifiers that would normally be applied in a t4 tag to retrieve the desired output. This pattern will generally appear within a `document.write` statement in order to output content to the page.
+t4Query uses a "selector-modifiers(s)" pattern for the majority of its use cases. You begin by selecting a field from your content type's element list, apply any modifiers that would normally be applied in a t4 tag to retrieve the desired output. This pattern will generally appear within a `document.write` statement in order to output content to the page.
 
 Selector | Modifier | Modifier ...
 ------------ | ------------- | -------------
