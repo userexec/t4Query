@@ -13,7 +13,7 @@ BrokerUtils.processT4Tags(dbStatement, publishCache, section, content, language,
 Into this:
 
 ```javascript
-$('Media Field').formatter('path/*').insert();
+$('Media Field').formatter('path/*');
 ```
 
 Determining if a checkbox is checked turns from this:
@@ -36,13 +36,15 @@ Open a content or page layout (e.g. text/html), switch to the JavaScript layout 
 
 ## Usage
 
-t4Query uses a "selector-modifiers(s)-insertion" pattern for the majority of its use-cases. You begin by selecting a field from your content type's element list, apply any modifiers that would normally be applied in a t4 tag to retrieve the desired output, and then call the `insert` method to resolve the content. This pattern will generally appear within a `document.write` statement in order to output content to the page.
+t4Query uses a "selector-modifiers(s)" pattern for the majority of its use-cases. You begin by selecting a field from your content type's element list, apply any modifiers that would normally be applied in a t4 tag to retrieve the desired output. This pattern will generally appear within a `document.write` statement in order to output content to the page.
 
-Selector | Modifier(s) | Insertion
+Selector | Modifier | Modifier ...
 ------------ | ------------- | -------------
-$('*field name*') | .*t4-tag-attribute*(value) | .insert()
+$('*field name*') | .*t4-tag-attribute*('*value*') | .*t4-tag-attribute*('*value*') ...
 
 Some exceptions to this pattern exist, such as retrieving section and page metadata or including navigation objects.
+
+In some uncommon cases in which \[object Object\] is returned, the pattern may require the `insert` method to be chained onto the end to resolve its content (e.g. `$('Field').modifiers('striptags').insert()`). The `valueOf` and `toString` methods of every t4Query object are linked to its insert method, so insertion occurs automatically in most use cases. Read more about how this works at [Medium](https://medium.com/@kevincennis/object-object-things-you-didn-t-know-about-valueof-38f2a88dfb33) for a better understanding of when `insert` may need to be appended.
 
 - [Inserting Content](#inserting)
 - [Selective Output](#selective)
@@ -54,10 +56,10 @@ Some exceptions to this pattern exist, such as retrieving section and page metad
 
 ### <a name="inserting"></a> Inserting Content
 
-To insert content into your page, first open a `document.write`. Select the field you wish to include using the selector-modifier-insertion syntax, then call the `insert` method on it.
+To insert content into your page, first open a `document.write` and then select the field you wish to include using the selector-modifier(s) syntax.
 
 ```javascript
-document.write('The secret message is: ' + $('Secret Message').insert() + '...');
+document.write('The secret message is: ' + $('Secret Message') + '...');
 ```
 
 ### <a name="selective"></a> Selective Output
@@ -66,7 +68,7 @@ To check if a field has content, select it and use the `hasContent` method. Comb
 
 ```javascript
 if ($('Email Address').hasContent()) {
-	document.write('<li><a href="mailto:' + $('Email Address').insert() + '">Email user</a></li>');
+	document.write('<li><a href="mailto:' + $('Email Address') + '">Email user</a></li>');
 }
 ```
 
@@ -80,24 +82,24 @@ if ($('Hide Buttons').checked()) {
 
 ### <a name="modifiers"></a> Modifiers, Formatters, and Other Attributes
 
-t4Query's selector function is designed to be transformed via chaining methods before insertion. Each of the most common attributes you would include on a t4 tag can be applied to your selected field before its insertion, allowing you to transform the data that will be returned.
+t4Query's selector function is designed to be transformed via chaining methods. Each of the most common attributes you would include on a t4 tag can be applied to your selected field before its insertion, allowing you to transform the data that will be returned.
 
 Get an image path:
 
 ```javascript
-document.write('Path: ' + $('Media Field').formatter('path/*').insert());
+document.write('Path: ' + $('Media Field').formatter('path/*'));
 ```
 
 Strip HTML tags and convert special characters:
 
 ```javascript
-document.write('Plain text: ' + $('Mixed Field').modifiers('striptags, htmlentities').insert());
+document.write('Plain text: ' + $('Mixed Field').modifiers('striptags, htmlentities'));
 ```
 
 Use a special output format:
 
 ```javascript
-document.write('Image (image output): ' + $('Image Field').output('image').insert());
+document.write('Image (image output): ' + $('Image Field').output('image'));
 ```
 
 Any number of the following methods can be chained between the selector and the insertion:
@@ -133,7 +135,7 @@ Any number of the following methods can be chained between the selector and the 
 If you need to specify an uncommon attribute for the content to be included, use the general purpose `attr` method with a key-value pair:
 
 ```javascript
-document.write('Uncommon format: ' + $('Field').attr('uncommon', 'true').insert());
+document.write('Uncommon format: ' + $('Field').attr('uncommon', 'true'));
 ```
 
 ### <a name="metadata"></a> Retrieving Metadata
@@ -141,7 +143,7 @@ document.write('Uncommon format: ' + $('Field').attr('uncommon', 'true').insert(
 To retrieve metadata, you'll use a slightly different syntax. Pass the name of any metadata field to the `meta` method without specifying a selector:
 
 ```javascript
-document.write('Last Modified: ' + $.meta('last_modified').insert());
+document.write('Last Modified: ' + $.meta('last_modified'));
 ```
 
 Supported metadata fields:
@@ -156,10 +158,10 @@ Supported metadata fields:
 - version
 - filesize (see below)
 
-The filesize metadata requires a modifier since it needs to know which element to examine. You can use the `attr` method with a key-value pair to specify the element before insertion.
+The filesize metadata requires a modifier since it needs to know which element to examine. You can use the `attr` method with a key-value pair to specify the element.
 
 ```javascript
-document.write('Last Modified: ' + $.meta('last_modified').attr('name', 'Text Field').insert());
+document.write('Last Modified: ' + $.meta('last_modified').attr('name', 'Text Field'));
 ```
 
 
@@ -168,7 +170,7 @@ document.write('Last Modified: ' + $.meta('last_modified').attr('name', 'Text Fi
 Including a navigation object is as simple as finding its ID, then using the following pattern to insert it onto the page:
 
 ```javascript
-document.write('Nav object #104: ' + $.nav(104).insert());
+document.write('Nav object #104: ' + $.nav(104));
 ```
 
 ### <a name="pageinfo"></a> Checking Page Information

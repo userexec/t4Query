@@ -227,6 +227,9 @@ if (typeof $ == 'undefined') {
 			},
 			valueOf: function() {
 				return this.insert();
+			},
+			toString: function() {
+				return this.insert();
 			}
 		};
 	};
