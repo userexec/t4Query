@@ -23,6 +23,8 @@ if (typeof $ == 'undefined') {
 
 			if (content.get(field).publish().isEmpty()) {
 				t4Obj.empty = true;
+				t4Obj.toString = function() { return ''; };
+				t4Obj.valueOf = function() { return 0; };
 			}
 
 			return t4Obj;
@@ -36,6 +38,11 @@ if (typeof $ == 'undefined') {
 
 			// Include a flag so that insert() can avoid sending this object to the broker utils
 			t4Obj.fail = true;
+
+			// Tag this object as empty
+			t4Obj.empty = true;
+			t4Obj.toString = function() { return ''; };
+			t4Obj.valueOf = function() { return 0; };
 
 			return t4Obj;
 		}
