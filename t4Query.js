@@ -37,9 +37,6 @@ if (typeof $ == 'undefined') {
 			// Include a flag so that insert() can avoid sending this object to the broker utils
 			t4Obj.fail = true;
 
-			// Log a warning in the page output
-			document.write('<br><span style="color: red; font-weight: bold;">t4Query warning:</span> Field ' + field + ' returned null.<br>');
-
 			return t4Obj;
 		}
 	};
