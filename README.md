@@ -197,6 +197,17 @@ Maybe all of this new-fangled stuff isn't for you. Maybe you just want the comfo
 document.write('Plain text: ' + $.t4('<t4 output="normal" name="Text Field" modifiers="" />'));
 ```
 
+### <a name="write"></a> document.write Shortcut
+
+In the spirit of speed, t4Query provides a shortcut to `document.write` that will automatically insert a new line after each call. It will also take an argument for how many tabs you would like inserted before that line. While unnecessary, this can help to keep the source code clean so that "view source" isn't always immediately followed by a trip to the prettifier.
+
+To use the shortcut, call <code>$.w(<i>string</i>, <i>indents</i>)</code> with *indents* as an integer specifying the number of tab characters you would like placed before the line.
+
+```javascript
+$.w('This is a line with four tabs before it, and a new line after.', 4);
+// Outputs: 				This is a line with four tabs before it...
+```
+
 ----------------------
 
 Logo by [RYJASM](http://ryjasm.com/)

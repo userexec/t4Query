@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///// t4Query - T4 JavaScript Preprocessor superset ///////////////////////////
-///// v1.01                                         ///////////////////////////
+///// v1.02                                         ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 /* global document, content, publishCache, dbStatement, section, language, isPreview, importClass, com, BrokerUtils */
@@ -46,6 +46,17 @@ if (typeof $ == 'undefined') {
 
 			return t4Obj;
 		}
+	};
+
+	// Provide a shortcut with newline to document.write
+	$.w = function(str, indent) {
+		var tabs = '';
+		if (typeof indent == 'number') {
+			for (var i = 0; i < Math.floor(indent); i++) {
+				tabs += '\t';
+			}
+		}
+		document.write(tabs + str + '\n');
 	};
 
 	// Provide mechanism for processing T4 tags
@@ -101,141 +112,141 @@ if (typeof $ == 'undefined') {
 
 	// Define standard library of tag-forming functions
 	$.Functions = function() {
-		return {
-			action: function(str) {
-				return this.attr('action', str);
-			},
-			after: function(str) {
-				return this.attr('after', str);
-			},
-			appendContent: function(str) {
-				return this.attr('append-content', str);
-			},
-			appendElement: function(str) {
-				return this.attr('append-element', str);
-			},
-			attr: function (attribute, str) {
-				// Ensure that only strings are added to tag attributes
-				if (typeof str == 'string') {
-					// Store the new attribute and value in the tag object
-					this.tag[attribute] = str;
-					return this;
-				} else {
-					// Flag this t4Query object so that it does not pass through broker utils
-					this.fail = true;
-
-					// Log a warning in the page output
-					document.write('<br><span style="color: red; font-weight: bold;">t4Query warning:</span> Passed attribute ' + str + ' should be a string.<br>');
-					return false;
-				}
-			},
-			before: function(str) {
-				return this.attr('before', str);
-			},
-			checked: function() {
-				return !this.empty;
-			},
-			dateFormat: function(str) {
-				return this.attr('date_format', str);
-			},
-			delimiter: function(str) {
-				return this.attr('delimiter', str);
-			},
-			disableDirectEdit: function() {
-				return this.attr('enable-dedit', 'false');
-			},
-			displayField: function(str) {
-				return this.attr('display_field', str);
-			},
-			element: function(str) {
-				return this.attr('element', str);
-			},
-			format: function(str) {
-				return this.attr('format', str);
-			},
-			formatter: function(str) {
-				return this.attr('formatter', str);
-			},
-			formatModifiers: function(str) {
-				return this.attr('format-modifiers', str);
-			},
-			hasContent: function() {
-				return this.checked();
-			},
-			id: function(str) {
-				return this.attr('id', str);
-			},
-			insert: function() {
-				if (!this.fail) {
-					// Build a t4 tag from the tag object
-					// Opening bracket is omitted to prevent preemptive processing of tags not requiring broker utils
-					var tag = 't4 ';
-					for (var key in this.tag) {
-						tag += key + '="' + this.tag[key] + '" ';
-					}
-					tag += '/>';
-
-					// Use Broker Utils to parse the t4 tag and insert onto the page
-					// Add opening bracket as tag is passed to broker utils to prevent preemptive processing
-					return $.t4('<' + tag);
-				} else {
-					// Flagged object detected--fail silently
-					return false;
-				}
-			},
-			locale: function(str) {
-				return this.attr('locale', str);
-			},
-			localeEs: function(str) {
-				return this.attr('locale_es', str);
-			},
-			meta: function(str) {
-				return this.attr('meta', str);
-			},
-			method: function(str) {
-				return this.attr('method', str);
-			},
-			modifiers: function(str) {
-				/* medialibrary, nav_sections, striptags, htmlentities, nl2br, js-var, rssentities, encode_emails */
-				return this.attr('modifiers', str);
-			},
-			name: function(str) {
-				return this.attr('name', str);
-			},
-			output: function(str) {
-				return this.attr('output', str);
-			},
-			outputSheetName: function(str) {
-				return this.attr('output-sheet-name', str);
-			},
-			processFormat: function(str) {
-				// Force option to string
-				if (str) {
-					str = 'true';
-				} else {
-					str = 'false';
-				}
-				return this.attr('process-format', str);
-			},
-			text: function(str) {
-				return this.attr('text', str);
-			},
-			textualNameSeparator: function(str) {
-				return this.attr('textual-name-separator', str);
-			},
-			type: function(str) {
-				return this.attr('type', str);
-			},
-			url: function(str) {
-				return this.attr('url', str);
-			},
-			valueOf: function() {
-				return this.insert();
-			},
-			toString: function() {
-				return this.insert();
-			}
+		this.valueOf = function() {
+			return this.insert();
 		};
+		this.toString = function() {
+			return this.insert();
+		};
+	};
+
+	// Static prototypal methods for t4Query objects
+	$.Functions.prototype.action = function(str) {
+		return this.attr('action', str);
+	};
+	$.Functions.prototype.after = function(str) {
+		return this.attr('after', str);
+	};
+	$.Functions.prototype.appendContent = function(str) {
+		return this.attr('append-content', str);
+	};
+	$.Functions.prototype.appendElement = function(str) {
+		return this.attr('append-element', str);
+	};
+	$.Functions.prototype.attr = function (attribute, str) {
+		// Ensure that only strings are added to tag attributes
+		if (typeof str == 'string') {
+			// Store the new attribute and value in the tag object
+			this.tag[attribute] = str;
+			return this;
+		} else {
+			// Flag this t4Query object so that it does not pass through broker utils
+			this.fail = true;
+
+			// Log a warning in the page output
+			document.write('<br><span style="color: red; font-weight: bold;">t4Query warning:</span> Passed attribute ' + str + ' should be a string.<br>');
+			return false;
+		}
+	};
+	$.Functions.prototype.before = function(str) {
+		return this.attr('before', str);
+	};
+	$.Functions.prototype.checked = function() {
+		return !this.empty;
+	};
+	$.Functions.prototype.dateFormat = function(str) {
+		return this.attr('date_format', str);
+	};
+	$.Functions.prototype.delimiter = function(str) {
+		return this.attr('delimiter', str);
+	};
+	$.Functions.prototype.disableDirectEdit = function() {
+		return this.attr('enable-dedit', 'false');
+	};
+	$.Functions.prototype.displayField = function(str) {
+		return this.attr('display_field', str);
+	};
+	$.Functions.prototype.element = function(str) {
+		return this.attr('element', str);
+	};
+	$.Functions.prototype.format = function(str) {
+		return this.attr('format', str);
+	};
+	$.Functions.prototype.formatter = function(str) {
+		return this.attr('formatter', str);
+	};
+	$.Functions.prototype.formatModifiers = function(str) {
+		return this.attr('format-modifiers', str);
+	};
+	$.Functions.prototype.hasContent = function() {
+		return this.checked();
+	};
+	$.Functions.prototype.id = function(str) {
+		return this.attr('id', str);
+	};
+	$.Functions.prototype.insert = function() {
+		if (!this.fail) {
+			// Build a t4 tag from the tag object
+			// Opening bracket is omitted to prevent preemptive processing of tags not requiring broker utils
+			var tag = 't4 ';
+			for (var key in this.tag) {
+				tag += key + '="' + this.tag[key] + '" ';
+			}
+			tag += '/>';
+
+			// Use Broker Utils to parse the t4 tag and insert onto the page
+			// Add opening bracket as tag is passed to broker utils to prevent preemptive processing
+			return '' + $.t4('<' + tag);
+		} else {
+			// Flagged object detected--fail silently
+			return false;
+		}
+	};
+	$.Functions.prototype.locale = function(str) {
+		return this.attr('locale', str);
+	};
+	$.Functions.prototype.localeEs = function(str) {
+		return this.attr('locale_es', str);
+	};
+	$.Functions.prototype.meta = function(str) {
+		return this.attr('meta', str);
+	};
+	$.Functions.prototype.method = function(str) {
+		return this.attr('method', str);
+	};
+	$.Functions.prototype.modifiers = function(str) {
+		/* medialibrary, nav_sections, striptags, htmlentities, nl2br, js-var, rssentities, encode_emails */
+		return this.attr('modifiers', str);
+	};
+	$.Functions.prototype.name = function(str) {
+		return this.attr('name', str);
+	};
+	$.Functions.prototype.output = function(str) {
+		return this.attr('output', str);
+	};
+	$.Functions.prototype.outputSheetName = function(str) {
+		return this.attr('output-sheet-name', str);
+	};
+	$.Functions.prototype.processFormat = function(str) {
+		// Force option to string
+		if (str) {
+			str = 'true';
+		} else {
+			str = 'false';
+		}
+		return this.attr('process-format', str);
+	};
+	$.Functions.prototype.text = function(str) {
+		return this.attr('text', str);
+	};
+	$.Functions.prototype.textualNameSeparator = function(str) {
+		return this.attr('textual-name-separator', str);
+	};
+	$.Functions.prototype.type = function(str) {
+		return this.attr('type', str);
+	};
+	$.Functions.prototype.url = function(str) {
+		return this.attr('url', str);
 	};
 }
 
