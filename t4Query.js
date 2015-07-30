@@ -229,7 +229,7 @@ if (typeof $ == 'undefined') {
 	};
 	$.Functions.prototype.processFormat = function(str) {
 		// Force option to string
-		if (str) {
+		if (typeof str !== 'string' && str) {
 			str = 'true';
 		} else {
 			str = 'false';
