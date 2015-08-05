@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///// t4Query - T4 JavaScript Preprocessor superset ///////////////////////////
-///// v1.02                                         ///////////////////////////
+///// v1.03                                         ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 /* global document, content, publishCache, dbStatement, section, language, isPreview, importClass, com, BrokerUtils */
@@ -98,7 +98,7 @@ if (typeof $ == 'undefined') {
 
 	// Provide mechanism for outputting page info
 	$.pageInfo = function(prop) {
-		if ($.pageInfo[prop]) {
+		if (typeof $.pageInfo[prop] == 'function') {
 			return $.pageInfo[prop]();
 		}
 	};
