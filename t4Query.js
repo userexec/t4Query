@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///// t4Query - T4 JavaScript Preprocessor superset ///////////////////////////
-///// v1.03                                         ///////////////////////////
+///// v1.04                                         ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 /* global document, content, publishCache, dbStatement, section, language, isPreview, importClass, com, BrokerUtils */
@@ -24,7 +24,7 @@ if (typeof $ == 'undefined') {
 			if (content.get(field).publish().isEmpty()) {
 				t4Obj.empty = true;
 				t4Obj.toString = function() { return ''; };
-				t4Obj.valueOf = function() { return 0; };
+				t4Obj.valueOf = function() { return ''; };
 			}
 
 			return t4Obj;
