@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///// t4Query - T4 JavaScript Preprocessor superset ///////////////////////////
-///// v1.04                                         ///////////////////////////
+///// v1.1                                          ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 /* global document, content, publishCache, dbStatement, section, language, isPreview, importClass, com, BrokerUtils */
@@ -48,14 +48,38 @@ if (typeof $ == 'undefined') {
 		}
 	};
 
+	// Provide a random number utility
+	$.random = function() {
+		return Math.floor(Math.random() * 10000000);
+	};
+
+	// Provide a toggle for Direct Edit class preservation
+	// I'm eyeing you, line 3942 of t4dedit.js, you evil thing.
+	$.directEditPreserve = true;
+	$.toggleDirectEditPreserve = function() {
+		if ($.directEditPreserve) {
+			$.directEditPreserve = false;
+		} else {
+			$.directEditPreserve = true;
+		}
+	};
+
 	// Provide a shortcut with newline to document.write
 	$.w = function(str, indent) {
+		// Indent the line so that "view source" is clean
 		var tabs = '';
 		if (typeof indent == 'number') {
 			for (var i = 0; i < Math.floor(indent); i++) {
 				tabs += '\t';
 			}
 		}
+
+		// If class preservation is requested, insert a unique ID into all HTML tags with classes but no ID
+		if ($.directEditPreserve && typeof str === 'string') {
+			str = str.replace(/(<[a-zA-Z1-6]*)((?=[^>]*class=(['"]).*?['"])(?![^>]*id=['"].*?['"]).*?>)/g, '$1 id=$3' + $.meta('content_id') + '_' + $.random() + '$3$2');
+		}
+
+		// Write the line
 		document.write(tabs + str + '\n');
 	};
 

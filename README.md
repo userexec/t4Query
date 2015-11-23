@@ -53,6 +53,8 @@ In some uncommon cases in which \[object Object\] is returned, the pattern may r
 - [Navigation Objects](#navigation)
 - [Checking Page Information](#pageinfo)
 - [Using Plain t4 Tags](#tags)
+- [document.write Shortcut](#write)
+- [Direct Edit Automatic Class Preservation](#directEdit)
 
 ### <a name="inserting"></a> Inserting Content
 
@@ -209,5 +211,12 @@ $.w('This is a line with four tabs before it, and a new line after.', 4);
 ```
 
 ----------------------
+
+### <a name="directEdit"></a> Direct Edit Automatic Class Preservation
+
+Thanks to the lovely line 3942 of t4dedit.js in Site Manager 7, elements in content type layouts that contain a class but no ID automatically have their classes stripped off for seemingly no reason. Since t4Query assumes you don't have access to modify the core files, it instead adds a randomized ID to all output elements with classes but no ID when you use the `$.w('')` document.write shortcut. This means you no longer have to remember place your own throwaway ID onto every element that requires classes, meaning quicker markup with better readability.
+
+This feature can be easily toggled off (or back on) with `$.toggleDirectEditPreserve()`.
+
 
 Logo by [RYJASM](http://ryjasm.com/)
