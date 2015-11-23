@@ -163,7 +163,7 @@ Supported metadata fields:
 The filesize metadata requires a modifier since it needs to know which element to examine. You can use the `attr` method with a key-value pair to specify the element.
 
 ```javascript
-document.write('Last Modified: ' + $.meta('last_modified').attr('name', 'Text Field'));
+document.write('Last Modified: ' + $.meta('filesize').attr('name', 'Text Field'));
 ```
 
 
