@@ -44,7 +44,7 @@ $('*field name*') | .*t4-tag-attribute*('*value*') | .*t4-tag-attribute*('*value
 
 Some exceptions to this pattern exist, such as retrieving section and page metadata or including navigation objects.
 
-In some uncommon cases in which \[object Object\] is returned, the pattern may require the `insert` method to be chained onto the end to resolve its content (e.g. `$('Field').modifiers('striptags').insert()`). The `valueOf` and `toString` methods of every t4Query object are linked to its insert method, so insertion occurs automatically in most use cases. Read more about how this works at [Medium](https://medium.com/@kevincennis/object-object-things-you-didn-t-know-about-valueof-38f2a88dfb33) for a better understanding of when `insert` may need to be appended.
+In some uncommon cases in which \[object Object\] is returned, the pattern will require the `insert` method to be chained onto the end to resolve its content (e.g. `$('Field').modifiers('striptags').insert()`). This is generally used when string coercion will not occur automatically (such as when you need to compare against the value of a field in a conditional instead of just printing it in a `document.write` statement). The `valueOf` and `toString` methods of every t4Query object are linked to its insert method, so insertion will occur automatically in most use cases. Read more about how this works at [Medium](https://medium.com/@kevincennis/object-object-things-you-didn-t-know-about-valueof-38f2a88dfb33) for a better understanding of when `insert` may need to be appended.
 
 - [Inserting Content](#inserting)
 - [Selective Output](#selective)
