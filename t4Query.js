@@ -42,7 +42,7 @@ if (typeof $ == 'undefined') {
 			// Tag this object as empty
 			t4Obj.empty = true;
 			t4Obj.toString = function() { return ''; };
-			t4Obj.valueOf = function() { return 0; };
+			t4Obj.valueOf = function() { return ''; };
 
 			return t4Obj;
 		}
