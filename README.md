@@ -1,4 +1,5 @@
 <center>![t4_query](https://cloud.githubusercontent.com/assets/5970137/8856790/a6c554d6-3132-11e5-869b-70784d9b26f7.png)</center>
+
 ### <center>TERMINALFOUR JavaScript layout processor superset</center>
 
 t4Query is a language superset for the [TERMINALFOUR](http://www.terminalfour.com/) JavaScript layout processor intended to simplify the inclusion of data in your content and page layouts. By pasting it into the top of your layout, you unlock easy access to all of your data normally included via t4 tags without needing extensive knowledge of the objects and methods available in the processor.
