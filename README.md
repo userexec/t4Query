@@ -179,7 +179,18 @@ document.write('Nav object #104: ' + $.nav(104));
 
 ### <a name="pageinfo"></a> Checking Page Information
 
-Page information is not a primary focus of t4Query, but some page information can assist in layouts. Currently t4Query only has the ability to check the page layout of the section the content item appears in. This can be *extremely* useful for outputting different HTML structures for different page layouts that must all support the text/html content layout. Note that if the content item is pulled through a navigation tag, it will report the layout ID of the page on which it originally resides, not the page it's being pulled onto.
+Page information is not a primary focus of t4Query, but some page information can assist in layouts. Currently t4Query has the ability to check the section, channel, and microchannel IDs and names, the section's path, and the page layout of the section the content item appears in. These can be *extremely* useful for outputting different HTML structures for different page layouts that must all support the text/html content layout, or for displaying content items differently depending on their channel/microchannel. Note that if the content item is pulled through a navigation tag, it will report information for the page on which it originally resides, not the page it's being pulled onto.
+
+Supported pageInfo properties:
+
+- (int) `layout`
+- (string) `path`
+- (int) `section`
+- (string) `sectionName`
+- (int) `channel`
+- (string) `channelName`
+- (int) `microChannel`
+- (string) `microChannelName`
 
 To find the page layout ID, use the following pattern:
 

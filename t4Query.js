@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///// t4Query - T4 JavaScript Preprocessor superset ///////////////////////////
-///// v1.1                                          ///////////////////////////
+///// v1.2                                          ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 /* global document, content, publishCache, dbStatement, section, language, isPreview, importClass, com, BrokerUtils */
@@ -127,11 +127,51 @@ if (typeof $ == 'undefined') {
 		}
 	};
 
-	$.pageInfo.layout = function() {
-		// Find the layout ID of the page on which this content item appears
+	$.pageInfo.section = function() {
+		return parseInt(section.getID());
+	};
+
+	$.pageInfo.sectionName = function() {
+		var thisSection = com.terminalfour.publish.utils.TreeTraversalUtils.findSection(publishCache.getChannel(), section, section.getID(), language);
+		return "" + thisSection.getName(language);
+	};
+
+	$.pageInfo.channel = function() {
 		var channel = publishCache.getChannel();
-		// Return the style of the secion (channel object required for lookup)
+		return parseInt(channel.getID());
+	};
+
+	$.pageInfo.channelName = function() {
+		var channel = publishCache.getChannel();
+		return "" + channel.getName();
+	};
+
+	$.pageInfo.microChannel = function() {
+		var sectionID = section.getID();
+		var thisSection = com.terminalfour.publish.utils.TreeTraversalUtils.findSection(publishCache.getChannel(), section, sectionID, language);
+		var microChannel = publishCache.getMicroSiteFromChild(thisSection);
+		if (!microChannel) { return false; }
+		return parseInt(microChannel.getID());
+	};
+
+	$.pageInfo.microChannelName = function() {
+		var sectionID = section.getID();
+		var thisSection = com.terminalfour.publish.utils.TreeTraversalUtils.findSection(publishCache.getChannel(), section, sectionID, language);
+		var microChannel = publishCache.getMicroSiteFromChild(thisSection);
+		if (!microChannel) { return false; }
+		return "" + microChannel.getName();
+	};
+
+	$.pageInfo.layout = function() {
+		var channel = publishCache.getChannel();
+		// Return the style of the section (channel object required for lookup)
 		return section.getStyle(channel);
+	};
+
+	$.pageInfo.path = function() {
+		var thisSection = com.terminalfour.publish.utils.TreeTraversalUtils.findSection(publishCache.getChannel(), section, section.getID(), language);
+		var linkObject = com.terminalfour.publish.PathBuilder.getLink(dbStatement, section, thisSection, publishCache, language, false);
+		return "" + linkObject.getLink();
 	};
 
 	// Define standard library of tag-forming functions
